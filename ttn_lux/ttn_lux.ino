@@ -36,10 +36,9 @@
 #include <SPI.h>
 #include "LowPower.h"
 #include <Wire.h>
-#include "i2c.h"
+#include <BH1750.h>
 
-#include "i2c_SI7021.h"
-SI7021 si7021;
+BH1750 lightMeter;
 #include <Arduino.h>
 
 int sleepcycles = 7;  // every sleepcycle will last 8 secs, total sleeptime will be sleepcycles * 8 sec
@@ -179,28 +178,10 @@ void onEvent (ev_t ev) {
 
 void do_send(osjob_t* j) {
   byte buffer[2];  
-  float humi,temp;
-  int16_t t_value, h_value, s_value;
-    si7021.getHumidity(humi);
-    si7021.getTemperature(temp);
-    si7021.triggerMeasurement();
-    // getting sensor values
-    Serial.print(F("TEMP: "));
-    Serial.print(temp);
-    Serial.print(F(" HUMI: "));
-    Serial.print(humi);
-    temp = constrain(temp,-24,40);  //temp in range -24 to 40 (64 steps)
-    humi=constrain(humi,20,100);    //humi in range 20 to 100 (80 steps)
-        t_value=int16_t((temp*(100/6.25)+2400/6.25)); //0.0625 degree steps with offset
-                                                      // no negative values
-        Serial.print(F("decoded TEMP: "));
-        Serial.print(t_value,HEX);
-        h_value=int16_t((humi-20)/5); //5% steps, offset 20.
-                Serial.print(F(" decoded HUMI: "));
-        Serial.print(h_value,HEX);
-        s_value=(h_value<<10) + t_value;  // putting the bits in the right place
-        Serial.print(F(" decoded sent: "));
-        Serial.println(s_value,HEX);
+  uint16_t s_value;
+    uint16_t lux = lightMeter.readLightLevel();
+    s_value=lux;
+    Serial.println(s_value,HEX);
         buffer[0]=s_value&0xFF; //lower byte
         buffer[1]=s_value>>8;   //higher byte
     // Check if there is not a current TX/RX job running
@@ -226,13 +207,8 @@ void setup()
   {
   Serial.begin(115200);
   Serial.println(F("Starting"));
-  Serial.print(F("Probe SI7021: "));
-  if (si7021.initialize()) Serial.println(F("Sensor found!"));
-    else
-    {
-        Serial.println(F("Sensor missing"));
-        while(1) {}; // Program will stop if there is no sensor
-    }
+  lightMeter.begin();
+  Serial.println(F("BH1750 Test"));
   // LED is connected to pin 10, if this port is NOT set as output before
   // SPI initialization, it will be used as SS (Slave Select) and controlled by the SPI module
       pinMode(LedPin, OUTPUT); 

@@ -51,15 +51,15 @@ bool sleeping = false;
 // LoRaWAN NwkSKey, network session key
 // This is the default Semtech key, which is used by the early prototype TTN
 // network.
-static const PROGMEM u1_t NWKSKEY[16] = { 0x21, 0xEE, 0x1E, 0x77, 0x58, 0xBD, 0xFE, 0x47, 0x45, 0x34, 0x00, 0x70, 0x55, 0x73, 0x9C, 0x20 };
+static const PROGMEM u1_t NWKSKEY[16] = {  };
 
 // LoRaWAN AppSKey, application session key
 // This is the default Semtech key, which is used by the early prototype TTN
 // network.
-static const u1_t PROGMEM APPSKEY[16] = { 0xFE, 0xC6, 0xE8, 0x6E, 0x4D, 0x31, 0x35, 0x4D, 0xA5, 0x65, 0x7E, 0xD5, 0x4A, 0xD2, 0x13, 0xB3 };
+static const u1_t PROGMEM APPSKEY[16] = {  };
 
 // LoRaWAN end-device address (DevAddr)
-static const u4_t DEVADDR = 0x26011A32 ; // <-- Change this address for every node!
+static const u4_t DEVADDR = 0x12345678 ; // <-- Change this address for every node!
 
 // These callbacks are only used in over-the-air activation, so they are
 // left empty here (we cannot leave them out completely unless
@@ -170,11 +170,6 @@ void onEvent (ev_t ev) {
 
 void do_send(osjob_t* j) {
   byte buffer[2];
-
-
-
-
-  
   float temperature,pascal;
     uint16_t t_value, p_value, s_value;
     bmp280.awaitMeasurement();

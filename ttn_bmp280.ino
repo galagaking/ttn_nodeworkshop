@@ -51,39 +51,16 @@ bool sleeping = false;
 // first. When copying an EUI from ttnctl output, this means to reverse
 // the bytes. For TTN issued EUIs the last bytes should be 0xD5, 0xB3,
 // 0x70.
-//sensor_01
 
-static const u1_t DEVEUI[8]  = { 0xDE, 0xCC, 0x29, 0x56, 0xBB, 0xAA, 0x29, 0x56 };
-static const u1_t APPEUI[8] = { 0xBE, 0x17, 0x00, 0xD0, 0x7E, 0xD5, 0xB3, 0x70 };
-
-// This key should be in big endian format (or, since it is not really a
-// number but a block of memory, endianness does not really apply). In
-// practice, a key taken from ttnctl can be copied as-is.
-// The key shown here is the semtech default key.
-static const u1_t APPKEY[16] = { 0xE3, 0xEB, 0xF9, 0x35, 0xB3, 0xAF, 0x83, 0xAE, 0x68, 0xB9, 0x8A, 0x49, 0x52, 0x07, 0x4B, 0xB4 };
-//sensor_03
-//static const u1_t DEVEUI[8]  = { 0xE1, 0xCC, 0x29, 0x56, 0xBB, 0xAA, 0x29, 0x56 };
-//static const u1_t APPEUI[8] = { 0xBE, 0x17, 0x00, 0xD0, 0x7E, 0xD5, 0xB3, 0x70 };
+static const u1_t DEVEUI[8]  = {  };
+static const u1_t APPEUI[8] = {  };
 
 // This key should be in big endian format (or, since it is not really a
 // number but a block of memory, endianness does not really apply). In
 // practice, a key taken from ttnctl can be copied as-is.
 // The key shown here is the semtech default key.
-//static const u1_t APPKEY[16] = { 0xFE, 0x8F, 0x01, 0x5E, 0xAF, 0x69, 0x5E, 0x92, 0x24, 0xF3, 0x0E, 0xD7, 0x60, 0x9F, 0x48, 0x13 };
+static const u1_t APPKEY[16] = {  };
 
-// provide APPEUI (8 bytes, LSBF)
-
-//board_01
-/*
-static const u1_t DEVEUI[8]  = { 0xE2, 0xCC, 0x29, 0x56, 0xBB, 0xAA, 0x29, 0x56 };
-static const u1_t APPEUI[8] = { 0xBE, 0x17, 0x00, 0xD0, 0x7E, 0xD5, 0xB3, 0x70 };
-
-// This key should be in big endian format (or, since it is not really a
-// number but a block of memory, endianness does not really apply). In
-// practice, a key taken from ttnctl can be copied as-is.
-// The key shown here is the semtech default key.
-static const u1_t APPKEY[16] = { 0x85, 0x6B, 0x0A, 0xE6, 0x11, 0x9A, 0x0A, 0x12, 0x21, 0x19, 0x26, 0xE0, 0x53, 0xA4, 0x45, 0x87 };
-*/
 void os_getArtEui (u1_t* buf) {
   memcpy(buf, APPEUI, 8);
 }
@@ -201,10 +178,6 @@ void onEvent (ev_t ev) {
 void do_send(osjob_t* j) {
   byte buffer[2];
 
-
-
-
-  
   float temperature,pascal;
     uint16_t t_value, p_value, s_value;
     bmp280.awaitMeasurement();

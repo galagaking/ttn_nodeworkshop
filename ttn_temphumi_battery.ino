@@ -58,14 +58,14 @@ bool sleeping = false;
 // the bytes. For TTN issued EUIs the last bytes should be 0xD5, 0xB3,
 // 0x70.
  
-static const u1_t DEVEUI[8]  = { 0xDE, 0xCC, 0x29, 0x56, 0xBB, 0xAA, 0x29, 0x56 };
-static const u1_t APPEUI[8] = { 0xBE, 0x17, 0x00, 0xD0, 0x7E, 0xD5, 0xB3, 0x70 };
+static const u1_t DEVEUI[8]  = { };
+static const u1_t APPEUI[8] = {  };
 
 // This key should be in big endian format (or, since it is not really a
 // number but a block of memory, endianness does not really apply). In
 // practice, a key taken from ttnctl can be copied as-is.
 // The key shown here is the semtech default key.
-static const u1_t APPKEY[16] = { 0xE3, 0xEB, 0xF9, 0x35, 0xB3, 0xAF, 0x83, 0xAE, 0x68, 0xB9, 0x8A, 0x49, 0x52, 0x07, 0x4B, 0xB4 };
+static const u1_t APPKEY[16] = { };
 
 // provide APPEUI (8 bytes, LSBF)
 void os_getArtEui (u1_t* buf) {
